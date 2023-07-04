@@ -35,6 +35,7 @@ jobs:
       - name: Test sample repo within venv
         run: |
           python -m venv ./venv
+          ls
           cd /venv/Scripts
           source activate
           cd ../..
