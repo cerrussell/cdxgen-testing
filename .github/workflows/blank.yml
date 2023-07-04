@@ -1,3 +1,5 @@
+name: Test cdxgen python
+
 on:
 
   # Allows you to run this workflow manually from the Actions tab
@@ -11,8 +13,6 @@ on:
         description: 'name of project'
         required: true
         type: string
-
-name: ${{ inputs.proj }}
         
 jobs:
   build:
