@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Get cdxgen
         run: |
-          git clone https://github.com/CycloneDX/cdxgen
+          git clone https://github.com/CycloneDX/cdxgen.git
           git checkout feature/deno-docker
           npm install -g
       
