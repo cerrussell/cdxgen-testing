@@ -35,9 +35,9 @@ jobs:
       - name: Test sample repo within venv
         run: |
           python -m venv ./venv
-          cd /venv/bin
+          cd /venv/Scripts
           source activate
-          cd ..
+          cd ../..
           cdxgen -p -t python -o venvnopkgbom.json
           pip install .
           pip freeze >> pipfreezebom.json
