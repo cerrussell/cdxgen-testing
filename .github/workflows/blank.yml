@@ -41,6 +41,7 @@ jobs:
           source activate
           cd ../..
           cdxgen -p -t python -o venvnopkgbom.json
+          ls
           pip install -r requirements.txt
           pip freeze >> pipfreezebom.json
           cdxgen -p -t python -o venvpkgbom.json
