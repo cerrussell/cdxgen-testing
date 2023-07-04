@@ -23,7 +23,8 @@ jobs:
           git clone https://github.com/CycloneDX/cdxgen.git
           cd cdxgen
           git checkout feature/deno-docker
-          npm install -g
+          npm pack
+          npm install cyclonedx-cdxgen-9.1.0.tgz -g
       
       - name: Test sample repo
         run: |
