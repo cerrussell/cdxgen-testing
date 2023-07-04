@@ -36,9 +36,7 @@ jobs:
         run: |
           cd testrepo
           python -m venv ./venv
-          cd venv
-          ls
-          cd Scripts
+          cd venv/bin
           source activate
           cd ../..
           cdxgen -p -t python -o venvnopkgbom.json
