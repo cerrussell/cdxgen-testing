@@ -1,8 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the workflow will run
 on:
 
   # Allows you to run this workflow manually from the Actions tab
@@ -12,6 +7,12 @@ on:
         description: 'repo to clone'
         required: true
         type: string
+      proj:
+        description: 'name of project'
+        required: true
+        type: string
+
+name: ${{ inputs.proj }}
         
 jobs:
   build:
@@ -29,18 +30,18 @@ jobs:
       - name: Test sample repo
         run: |
           git clone ${{ inputs.repo }} testrepo
-          cd testrepo
+          cd testrepo/${{ inputs.proj }}
           cdxgen -p -t python -o novenvbom.json
       
       - name: Test sample repo within venv
         run: |
-          cd testrepo
+          cd testrepo/${{ inputs.proj }}
           python -m venv ./venv
           cd venv/bin
           source activate
           cd ../..
           cdxgen -p -t python -o venvnopkgbom.json
-          pip install .
+          pip install -r requirements.txt
           pip freeze >> pipfreezebom.json
           cdxgen -p -t python -o venvpkgbom.json
         
