@@ -34,9 +34,11 @@ jobs:
       
       - name: Test sample repo within venv
         run: |
+          cd testrepo
           python -m venv ./venv
+          cd venv
           ls
-          cd /venv/Scripts
+          cd Scripts
           source activate
           cd ../..
           cdxgen -p -t python -o venvnopkgbom.json
