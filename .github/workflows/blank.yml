@@ -38,6 +38,7 @@ jobs:
           pip install -r requirements.txt
           pip freeze >> pipfreeze.txt
           cdxgen -p -t python -o venvpkgbom.json
+          ls
         
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.2
