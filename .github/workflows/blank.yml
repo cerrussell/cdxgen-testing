@@ -25,7 +25,7 @@ jobs:
         run: |
           git clone ${{ inputs.repo }} testrepo
           cd testrepo
-          cdxgen -p -t python -o novenvbom.json
+          cdxgen -p -t python -o /home/runner/work/novenvbom.json
       
       - name: Test sample repo within venv
         run: |
@@ -36,8 +36,8 @@ jobs:
           cd ../..
           cdxgen -p -t python -o venvnopkgbom.json
           pip install -r requirements.txt
-          pip freeze >> pipfreeze.txt
-          cdxgen -p -t python -o venvpkgbom.json
+          pip freeze >> /home/runner/work/pipfreeze.txt
+          cdxgen -p -t python -o /home/runner/work/venvpkgbom.json
           ls
         
       - name: Upload a Build Artifact
