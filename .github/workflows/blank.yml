@@ -44,8 +44,9 @@ jobs:
         uses: actions/upload-artifact@v3.1.2
         with:
           path: |
-            'testrepo/*bom.json'
-            'testrepo/pipfreeze.txt'
+            '/home/runner/work/novenvbom.json'
+            '/home/runner/work/venvpkgbom.json'
+            '/home/runner/work/pipfreeze.txt'
           
       
       
