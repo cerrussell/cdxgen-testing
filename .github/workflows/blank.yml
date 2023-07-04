@@ -30,18 +30,17 @@ jobs:
       - name: Test sample repo
         run: |
           git clone ${{ inputs.repo }} testrepo
-          cd testrepo/${{ inputs.proj }}
+          cd testrepo
           cdxgen -p -t python -o novenvbom.json
       
       - name: Test sample repo within venv
         run: |
-          cd testrepo/${{ inputs.proj }}
+          cd testrepo
           python -m venv ./venv
           cd venv/bin
           source activate
           cd ../..
           cdxgen -p -t python -o venvnopkgbom.json
-          ls
           pip install -r requirements.txt
           pip freeze >> pipfreezebom.json
           cdxgen -p -t python -o venvpkgbom.json
