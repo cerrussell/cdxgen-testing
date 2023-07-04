@@ -25,8 +25,7 @@ jobs:
         run: |
           git clone ${{ inputs.repo }} testrepo
           cd testrepo
-          mkdir upload
-          cdxgen -p -t python -o upload/novenvbom.json
+          cdxgen -p -t python -o novenvbom.json
       
       - name: Test sample repo within venv
         run: |
@@ -35,16 +34,8 @@ jobs:
           cd venv/bin
           source activate
           cd ../..
-          cdxgen -p -t python -o /upload/venvnopkgbom.json
+          cdxgen -p -t python -o venvnopkgbom.json
           pip install -r requirements.txt
-          pip freeze >> upload/pipfreeze.txt
-          cdxgen -p -t python -o upload/venvpkgbom.json
-        
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          path: |
-            '/testrepo/upload/*'
-          
-      
-      
+          pip freeze >> pipfreeze.txt
+          pip freeze
+          cdxgen -p -t python -o venvpkgbom.json
