@@ -37,11 +37,26 @@ jobs:
           cd testrepo
           cdxgen -p -t python -o ../artifacts/novenvbom.json
       
-      - name: Test sample repo within venv
+      - name: Test sample repo within venv - Linux
+        if: matrix.os == 'ubuntu-latest'
         run: |
           cd testrepo
           python -m venv ./venv
           cd venv/bin
+          source activate
+          cd ../..
+          cdxgen -p -t python -o ../artifacts/venvnopkgbom-${{ matrix.os }}.json
+          pip install -r requirements.txt
+          pip freeze >> ../artifacts/pipfreeze-${{ matrix.os }}.txt
+          pip freeze
+          cdxgen -p -t python -o ../artifacts/venvpkgbom-${{ matrix.os }}.json
+      
+      - name: Test sample repo within venv - Windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          cd testrepo
+          python -m venv ./venv
+          cd venv/Scripts
           source activate
           cd ../..
           cdxgen -p -t python -o ../artifacts/venvnopkgbom-${{ matrix.os }}.json
