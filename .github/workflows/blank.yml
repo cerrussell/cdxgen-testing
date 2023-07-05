@@ -53,8 +53,11 @@ jobs:
           pip install pipdeptree
           pipdeptree >> ../artifacts/${{ inputs.run_name }}-pipdeptree-${{ matrix.os }}.txt
       
+      
       - name: Test sample repo within venv - Windows
         if: matrix.os == 'windows-latest'
+        env:
+          CDXGEN_DEBUG_MODE: debug
         run: |
           cd testrepo
           python -m venv ./venv
