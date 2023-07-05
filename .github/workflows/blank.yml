@@ -57,7 +57,7 @@ jobs:
           cd testrepo
           python -m venv ./venv
           cd venv/Scripts
-          source activate
+          ./activate
           cd ../..
           cdxgen -p -t python -o ../artifacts/venvnopkgbom-${{ matrix.os }}.json
           pip install -r requirements.txt
