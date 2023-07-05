@@ -14,9 +14,12 @@ on:
 
 run-name: ${{ inputs.run_name }}
         
-jobs:
+jobs: 
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Get cdxgen
@@ -41,15 +44,15 @@ jobs:
           cd venv/bin
           source activate
           cd ../..
-          cdxgen -p -t python -o ../artifacts/venvnopkgbom.json
+          cdxgen -p -t python -o ../artifacts/venvnopkgbom-${{ matrix.os }}.json
           pip install -r requirements.txt
-          pip freeze >> ../artifacts/pipfreeze.txt
+          pip freeze >> ../artifacts/pipfreeze-${{ matrix.os }}.txt
           pip freeze
-          cdxgen -p -t python -o ../artifacts/venvpkgbom.json
+          cdxgen -p -t python -o ../artifacts/venvpkgbom-${{ matrix.os }}.json
           
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: ${{ inputs.run_name }}-artifacts
+          name: ${{ inputs.run_name }}-artifacts-${{ matrix.os }}
           path: |
             artifacts
