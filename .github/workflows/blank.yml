@@ -43,6 +43,7 @@ jobs:
           cd ../..
           cdxgen -p -t python -o ../artifacts/venvnopkgbom.json
           pip install -r requirements.txt
+          pip install .
           pip freeze >> ../artifacts/pipfreeze.txt
           pip freeze
           cdxgen -p -t python -o ../artifacts/venvpkgbom.json
