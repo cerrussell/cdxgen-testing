@@ -7,6 +7,12 @@ on:
         description: 'repo to clone'
         required: true
         type: string
+      run_name:
+        description: 'display name for run'
+        required: true
+        type: string
+
+run-name: ${{ inputs.run_name }}
         
 jobs:
   build:
