@@ -50,8 +50,8 @@ jobs:
           pip freeze >> ../artifacts/${{ inputs.run_name }}-pipfreeze-${{ matrix.os }}.txt
           pip freeze
           cdxgen -p -t python -o ../artifacts/${{ inputs.run_name }}-venvpkgbom-${{ matrix.os }}.json
-          pip install pipdeptree
-          pipdeptree >> ../artifacts/${{ inputs.run_name }}-pipdeptree-${{ matrix.os }}.txt
+          # pip install pipdeptree
+          # pipdeptree >> ../artifacts/${{ inputs.run_name }}-pipdeptree-${{ matrix.os }}.txt
       
       
       - name: Test sample repo within venv - Windows
@@ -69,8 +69,8 @@ jobs:
           pip freeze >> ../artifacts/${{ inputs.run_name }}-pipfreeze-${{ matrix.os }}.txt
           pip freeze
           cdxgen -p -t python -o ../artifacts/${{ inputs.run_name }}-venvpkgbom-${{ matrix.os }}.json
-          pip install pipdeptree
-          pipdeptree >> ../artifacts/${{ inputs.run_name }}-pipdeptree-${{ matrix.os }}.txt
+          # pip install pipdeptree
+          # pipdeptree >> ../artifacts/${{ inputs.run_name }}-pipdeptree-${{ matrix.os }}.txt
           
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.2
