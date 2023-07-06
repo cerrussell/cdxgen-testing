@@ -22,7 +22,14 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
+      - name: Setup Python
+        uses: actions/setup-python@v3.1.4
+        with:
+          python-version: 3.11
+   
       - name: Get cdxgen
+        env:
+          CDXGEN_DEBUG_MODE: debug
         run: |
           git clone https://github.com/CycloneDX/cdxgen.git
           cd cdxgen
@@ -30,7 +37,9 @@ jobs:
           npm pack
           npm install cyclonedx-cdxgen-9.1.0.tgz -g
       
-      - name: Test sample repo
+      - name: Test sample repo no venv
+        env:
+          CDXGEN_DEBUG_MODE: debug
         run: |
           git clone ${{ inputs.repo }} testrepo
           mkdir artifacts
@@ -39,6 +48,8 @@ jobs:
       
       - name: Test sample repo within venv - Linux
         if: matrix.os == 'ubuntu-latest'
+        env:
+          CDXGEN_DEBUG_MODE: debug
         run: |
           cd testrepo
           python -m venv ./venv
@@ -50,9 +61,6 @@ jobs:
           pip freeze >> ../artifacts/${{ inputs.run_name }}-pipfreeze-${{ matrix.os }}.txt
           pip freeze
           cdxgen -p -t python -o ../artifacts/${{ inputs.run_name }}-venvpkgbom-${{ matrix.os }}.json
-          # pip install pipdeptree
-          # pipdeptree >> ../artifacts/${{ inputs.run_name }}-pipdeptree-${{ matrix.os }}.txt
-      
       
       - name: Test sample repo within venv - Windows
         if: matrix.os == 'windows-latest'
@@ -69,8 +77,6 @@ jobs:
           pip freeze >> ../artifacts/${{ inputs.run_name }}-pipfreeze-${{ matrix.os }}.txt
           pip freeze
           cdxgen -p -t python -o ../artifacts/${{ inputs.run_name }}-venvpkgbom-${{ matrix.os }}.json
-          # pip install pipdeptree
-          # pipdeptree >> ../artifacts/${{ inputs.run_name }}-pipdeptree-${{ matrix.os }}.txt
           
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.2
