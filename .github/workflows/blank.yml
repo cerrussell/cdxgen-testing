@@ -50,7 +50,7 @@ jobs:
           git clone ${{ inputs.repo }} testrepo
           mkdir artifacts
           cd testrepo
-          cdxgen -p -t python -o ../artifacts/novenvbom.json
+          cdxgen -p -t python -o ../artifacts/${{ inputs.run_name }}-novenvbom-${{ matrix.os }}.json
       
       - name: Test sample repo within venv - Linux
         if: matrix.os == 'ubuntu-latest'
