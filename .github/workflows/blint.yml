@@ -9,4 +9,4 @@ jobs:
 
     steps:
       - name: Run blint
-        uses: cerrussell/blint-action@latest
+        uses: cerrussell/blint-action@0.0.1
