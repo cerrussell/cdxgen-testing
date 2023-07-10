@@ -1,0 +1,12 @@
+name: blint
+
+on:
+  workflow_dispatch:
+
+jobs:
+  blint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run blint
+        uses: cerrussell/blint-action@latest
