@@ -11,3 +11,6 @@ jobs:
       - run: git clone https://github.com/juice-shop/juicy-malware.git
       - name: Run blint
         uses: cerrussell/blint-action@main
+        with:
+          src: |
+            juicy-malware
