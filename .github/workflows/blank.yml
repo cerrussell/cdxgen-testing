@@ -39,9 +39,9 @@ jobs:
         run: |
           git clone https://github.com/CycloneDX/cdxgen.git
           cd cdxgen
-          git checkout feature/deno-docker
+          git checkout fix/issue-389
           npm pack
-          npm install cyclonedx-cdxgen-9.1.0.tgz -g
+          npm install cyclonedx-cdxgen-9.1.1.tgz -g
       
       - name: Test sample repo no venv
         env:
