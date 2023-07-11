@@ -37,11 +37,12 @@ jobs:
         env:
           CDXGEN_DEBUG_MODE: debug
         run: |
-          git clone https://github.com/CycloneDX/cdxgen.git
-          cd cdxgen
-          git checkout fix/issue-389
-          npm pack
-          npm install cyclonedx-cdxgen-9.1.1.tgz -g
+          npm i @cyclonedx/cdxgen@9.1.1
+          #git clone https://github.com/CycloneDX/cdxgen.git
+          #cd cdxgen
+          #git checkout fix/issue-389
+          #npm pack
+          #npm install cyclonedx-cdxgen-9.1.1.tgz -g
       
       - name: Test sample repo no venv
         env:
