@@ -9,7 +9,7 @@ jobs:
     steps:
       - run: git clone https://github.com/juice-shop/juicy-malware.git
       - name: Run blint
-        uses: appthreat/blint-action@main
+        uses: cerrussell/blint-action@main
         env:
           SCAN_DEBUG_MODE: debug
         with:
