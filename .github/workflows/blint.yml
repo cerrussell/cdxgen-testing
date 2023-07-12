@@ -14,4 +14,6 @@ jobs:
         env:
           SCAN_DEBUG_MODE: debug
         with:
-          src: juicy-malware
+          src: |
+            juicy-malware/juicy_malware_windows_64.exe
+            juicy-malware/juicy_malware_linux_amd_64
