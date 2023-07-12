@@ -67,7 +67,7 @@ jobs:
           pip install -r requirements.txt
           pip freeze >> ../artifacts/${{ inputs.run_name }}-pipfreeze-${{ matrix.os }}.txt
           pip freeze
-          cdxgen -p -t python --validate -o ../artifacts/${{ inputs.run_name }}-venvpkgbom-${{ matrix.os }}.json
+          cdxgen -p -t python --validate --spec-version 1.4 -o ../artifacts/${{ inputs.run_name }}-venvpkgbom-${{ matrix.os }}.json
       
       - name: Test sample repo within venv - Windows
         if: matrix.os == 'windows-latest'
