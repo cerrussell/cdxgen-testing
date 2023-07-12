@@ -51,7 +51,7 @@ jobs:
           git clone ${{ inputs.repo }} testrepo
           mkdir artifacts
           cd testrepo
-          cdxgen -p -t python --validate -o ../artifacts/${{ inputs.run_name }}-novenvbom-${{ matrix.os }}.json
+          cdxgen -p -t python --validate --spec-version 1.4 -o ../artifacts/${{ inputs.run_name }}-novenvbom-${{ matrix.os }}.json
       
       - name: Test sample repo within venv - Linux
         if: matrix.os == 'ubuntu-latest'
@@ -63,7 +63,7 @@ jobs:
           cd venv/bin
           source activate
           cd ../..
-          cdxgen -p -t python -o ../artifacts/${{ inputs.run_name }}-venvnopkgbom-${{ matrix.os }}.json
+          cdxgen -p -t python -o --validate --spec-version 1.4 ../artifacts/${{ inputs.run_name }}-venvnopkgbom-${{ matrix.os }}.json
           pip install -r requirements.txt
           pip freeze >> ../artifacts/${{ inputs.run_name }}-pipfreeze-${{ matrix.os }}.txt
           pip freeze
@@ -79,11 +79,11 @@ jobs:
           cd venv/Scripts
           ./activate
           cd ../..
-          cdxgen -p -t python --validate -o ../artifacts/${{ inputs.run_name }}-venvnopkgbom-${{ matrix.os }}.json
+          cdxgen -p -t python --validate --spec-version 1.4 -o ../artifacts/${{ inputs.run_name }}-venvnopkgbom-${{ matrix.os }}.json
           pip install -r requirements.txt
           pip freeze >> ../artifacts/${{ inputs.run_name }}-pipfreeze-${{ matrix.os }}.txt
           pip freeze
-          cdxgen -p -t python --validate -o ../artifacts/${{ inputs.run_name }}-venvpkgbom-${{ matrix.os }}.json
+          cdxgen -p -t python --validate --spec-version 1.4 -o ../artifacts/${{ inputs.run_name }}-venvpkgbom-${{ matrix.os }}.json
           
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.2
