@@ -10,8 +10,8 @@ jobs:
     steps:
       - run: git clone https://github.com/juice-shop/juicy-malware.git
       - name: Run blint
-        env: |
-          SCAN_DEBUG_MODE:debug
         uses: cerrussell/blint-action@main
+        env:
+          SCAN_DEBUG_MODE: debug
         with:
           src: juicy-malware
