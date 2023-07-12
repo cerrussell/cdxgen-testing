@@ -16,4 +16,3 @@ jobs:
         with:
           src: |
             juicy-malware/juicy_malware_windows_64.exe
-            juicy-malware/juicy_malware_linux_amd_64
