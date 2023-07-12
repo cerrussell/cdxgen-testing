@@ -6,7 +6,6 @@ on:
 jobs:
   blint:
     runs-on: ubuntu-latest
-
     steps:
       - run: git clone https://github.com/juice-shop/juicy-malware.git
       - name: Run blint
@@ -17,5 +16,8 @@ jobs:
           src: |
             juicy-malware/juicy_malware_windows_64.exe
             juicy-malware/juicy_malware_linux_amd_64
+  test:
+    runs-on: ubuntu-latest
+    steps:
       - run: echo "testing"
 
