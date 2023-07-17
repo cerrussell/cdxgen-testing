@@ -44,7 +44,7 @@ jobs:
         env:
           CDXGEN_DEBUG_MODE: debug
         run: |
-          git clone ${{ inputs.repo }} testrepo
+          git clone -w ${{ inputs.repo }} testrepo
           mkdir artifacts
           cd testrepo
           pnpm install .
