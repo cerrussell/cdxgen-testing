@@ -47,8 +47,8 @@ jobs:
           git clone ${{ inputs.repo }} testrepo
           mkdir artifacts
           cd testrepo
-          pnpm install -w .
-          cdxgen -p -t javascript --validate -o ../artifacts/${{ inputs.run_name }}-bom-${{ matrix.os }}.json
+          pnpm install .
+          cdxgen -p --validate -o ../artifacts/${{ inputs.run_name }}-bom-${{ matrix.os }}.json
           
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.2
