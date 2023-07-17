@@ -40,14 +40,14 @@ jobs:
           npm pack
           npm install cyclonedx-cdxgen-9.2.2.tgz -g
       
-      - name: Test sample repo no venv
+      - name: Test sample repo
         env:
           CDXGEN_DEBUG_MODE: debug
         run: |
-          git clone -w ${{ inputs.repo }} testrepo
+          git clone ${{ inputs.repo }} testrepo
           mkdir artifacts
           cd testrepo
-          pnpm install .
+          pnpm install -w .
           cdxgen -p -t javascript --validate -o ../artifacts/${{ inputs.run_name }}-bom-${{ matrix.os }}.json
           
       - name: Upload a Build Artifact
