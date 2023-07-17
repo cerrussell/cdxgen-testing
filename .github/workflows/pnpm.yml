@@ -22,10 +22,6 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      #- name: Setup Python
-      #  uses: actions/setup-python@v3.1.4
-      #  with:
-      #    python-version: 3.11
       
       - name: Setup Java JDK
         uses: actions/setup-java@v1.4.4
@@ -43,6 +39,7 @@ jobs:
           git checkout master
           npm pack
           npm install cyclonedx-cdxgen-9.2.2.tgz -g
+          npm install pnpnm -g
       
       - name: Test sample repo no venv
         env:
