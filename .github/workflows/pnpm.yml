@@ -1,0 +1,62 @@
+name: Test cdxgen python
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: 'repo to clone'
+        required: true
+        type: string
+      run_name:
+        description: 'display name for run'
+        required: true
+        type: string
+
+run-name: ${{ inputs.run_name }}
+        
+jobs: 
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      #- name: Setup Python
+      #  uses: actions/setup-python@v3.1.4
+      #  with:
+      #    python-version: 3.11
+      
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.4
+        with:
+          java-version: 17
+          java-package: jre
+   
+      - name: Get cdxgen
+        env:
+          CDXGEN_DEBUG_MODE: debug
+        run: |
+          #npm i @cyclonedx/cdxgen@9.2.0 -g
+          git clone https://github.com/ajmalab/cdxgen.git
+          cd cdxgen
+          git checkout master
+          npm pack
+          npm install cyclonedx-cdxgen-9.2.2.tgz -g
+      
+      - name: Test sample repo no venv
+        env:
+          CDXGEN_DEBUG_MODE: debug
+        run: |
+          git clone ${{ inputs.repo }} testrepo
+          mkdir artifacts
+          cd testrepo
+          pnpm install .
+          cdxgen -p -t javascript --validate -o ../artifacts/${{ inputs.run_name }}-bom-${{ matrix.os }}.json
+          
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: ${{ inputs.run_name }}-artifacts-${{ matrix.os }}
+          path: |
+            artifacts
