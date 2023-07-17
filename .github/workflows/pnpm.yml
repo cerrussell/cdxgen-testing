@@ -1,4 +1,4 @@
-name: Test cdxgen python
+name: Test cdxgen pnpm
 
 on:
   workflow_dispatch:
