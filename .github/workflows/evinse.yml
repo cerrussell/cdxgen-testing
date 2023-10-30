@@ -34,21 +34,27 @@ jobs:
           git clone https://github.com/puppeteer/puppeteer.git puppeteer
           git clone https://github.com/Tautulli/Tautulli.git tautulli
           git clone https://github.com/keras-team/keras.git keras
-      - name: Test sample repos
+      - name: Generate cdxgen boms
         env:
           CDXGEN_DEBUG_MODE: debug
         run: |
-          mkdir artifacts artifacts/puppeteer artifacts/tautulli artifacts/keras
-          cdxgen -p -t python --deep -o artifacts/puppeteer/puppeteer-bom-${{ matrix.os }}.json puppeteer
-          evinse -p -i artifacts/puppeteer/puppeteer-bom-${{ matrix.os }}.json -o artifacts/puppeteer/puppeteer-evinse-${{ matrix.os }}.json -l python --with-reachables puppeteer
-          cdxgen -p -t python --deep -o artifacts/tautulli/tautulli-bom-${{ matrix.os }}.json tautulli
-          evinse -p -i artifacts/tautulli/tautulli-bom-${{ matrix.os }}.json -o artifacts/tautulli/tautulli-evinse-${{ matrix.os }}.json -l python --with-reachables tautulli
-          cdxgen -p -t python --deep -o artifacts/keras/keras-bom-${{ matrix.os }}.json keras
-          evinse -p -i artifacts/keras/keras-bom-${{ matrix.os }}.json -o artifacts/keras/keras-evinse-${{ matrix.os }}.json -l python --with-reachables keras
-          
+          mkdir artifacts-${{ matrix.os }}
+          mkdir artifacts-${{ matrix.os }}/puppeteer
+          mkdir artifacts-${{ matrix.os }}/tautulli
+          mkdir artifacts-${{ matrix.os }}/keras
+          cdxgen -p -t python --deep -o artifacts-${{ matrix.os }}/puppeteer/puppeteer-bom-${{ matrix.os }}.json puppeteer
+          cdxgen -p -t python --deep -o artifacts-${{ matrix.os }}/tautulli/tautulli-bom-${{ matrix.os }}.json tautulli
+          cdxgen -p -t python --deep -o artifacts-${{ matrix.os }}/keras/keras-bom-${{ matrix.os }}.json keras
+      - name: Run evinse
+        env:
+          CDXGEN_DEBUG_MODE: debug
+        run: |
+          evinse -p -i artifacts-${{ matrix.os }}/puppeteer/puppeteer-bom-${{ matrix.os }}.json -o artifacts-${{ matrix.os }}/puppeteer/puppeteer-evinse-${{ matrix.os }}.json -l python --with-reachables puppeteer
+          evinse -p -i artifacts-${{ matrix.os }}/tautulli/tautulli-bom-${{ matrix.os }}.json -o artifacts-${{ matrix.os }}/tautulli/tautulli-evinse-${{ matrix.os }}.json -l python --with-reachables tautulli
+          evinse -p -i artifacts-${{ matrix.os }}/keras/keras-bom-${{ matrix.os }}.json -o artifacts-${{ matrix.os }}/keras/keras-evinse-${{ matrix.os }}.json -l python --with-reachables keras
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
         with:
           name: artifacts-${{ matrix.os }}
           path: |
-            artifacts
+            artifacts-${{ matrix.os }}
