@@ -34,28 +34,31 @@ jobs:
           npm install -g cyclonedx-cdxgen-9.9.1.tgz
       - name: Get sample repos
         run: |
-          # git clone https://github.com/puppeteer/puppeteer.git puppeteer
+          git clone https://github.com/explosion/spaCy.git spacy
           git clone https://github.com/Tautulli/Tautulli.git tautulli
           git clone https://github.com/se2p/pynguin.git pynguin
+          git clone https://github.com/scrapy/scrapy.git scrapy
       - name: Generate cdxgen boms
         env:
           CDXGEN_DEBUG_MODE: debug
         run: |
           mkdir artifacts-${{ matrix.os }}
-          # mkdir artifacts-${{ matrix.os }}/puppeteer
+          mkdir artifacts-${{ matrix.os }}/spacy
           mkdir artifacts-${{ matrix.os }}/tautulli
           mkdir artifacts-${{ matrix.os }}/pynguin
-          # cdxgen -p -t python --deep -o artifacts-${{ matrix.os }}/puppeteer/puppeteer-bom-${{ matrix.os }}.json puppeteer
+          mkdir artifacts-${{ matrix.os }}/scrapy
+          cdxgen -p -t python --deep -o artifacts-${{ matrix.os }}/spacy/spacy-bom-${{ matrix.os }}.json spacy
       - run: cdxgen -p -t python --deep -o artifacts-${{ matrix.os }}/tautulli/tautulli-bom-${{ matrix.os }}.json tautulli
       - run: cdxgen -p -t python --deep -o artifacts-${{ matrix.os }}/pynguin/pynguin-bom-${{ matrix.os }}.json pynguin
+      - run: cdxgen -p -t python --deep -o artifacts-${{ matrix.os }}/scrapy/scrapy-bom-${{ matrix.os }}.json scrapy
       - name: Run evinse
         env:
           CDXGEN_DEBUG_MODE: debug
         run: |
-          evinse -p -i artifacts-${{ matrix.os }}/tautulli/tautulli-bom-${{ matrix.os }}.json -o artifacts-${{ matrix.os }}/tautulli/tautulli-evinse-${{ matrix.os }}.json -l python --with-reachables tautulli
-          # evinse -p -i artifacts-${{ matrix.os }}/puppeteer/puppeteer-bom-${{ matrix.os }}.json -o artifacts-${{ matrix.os }}/puppeteer/puppeteer-evinse-${{ matrix.os }}.json -l python --with-reachables puppeteer
-      # - run: evinse -p -i artifacts-${{ matrix.os }}/tautulli/tautulli-bom-${{ matrix.os }}.json -o artifacts-${{ matrix.os }}/tautulli/tautulli-evinse-${{ matrix.os }}.json -l python --with-reachables tautulli
+          evinse -p -i artifacts-${{ matrix.os }}/spacy/spacy-bom-${{ matrix.os }}.json -o artifacts-${{ matrix.os }}/spacy/spacy-evinse-${{ matrix.os }}.json -l python --with-reachables spacy
+      - run: evinse -p -i artifacts-${{ matrix.os }}/tautulli/tautulli-bom-${{ matrix.os }}.json -o artifacts-${{ matrix.os }}/tautulli/tautulli-evinse-${{ matrix.os }}.json -l python --with-reachables tautulli
       - run: evinse -p -i artifacts-${{ matrix.os }}/pynguin/pynguin-bom-${{ matrix.os }}.json -o artifacts-${{ matrix.os }}/pynguin/pynguin-evinse-${{ matrix.os }}.json -l python --with-reachables pynguin
+      - run: evinse -p -i artifacts-${{ matrix.os }}/scrapy/scrapy-bom-${{ matrix.os }}.json -o artifacts-${{ matrix.os }}/scrapy/scrapy-evinse-${{ matrix.os }}.json -l python --with-reachables scrapy
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
         with:
