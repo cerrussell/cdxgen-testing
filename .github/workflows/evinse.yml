@@ -2,7 +2,6 @@ name: Test evinse
 
 on:
   workflow_dispatch:
-
         
 jobs: 
   build:
@@ -33,7 +32,7 @@ jobs:
         run: |
           git clone https://github.com/puppeteer/puppeteer.git puppeteer
           git clone https://github.com/Tautulli/Tautulli.git tautulli
-          git clone https://github.com/keras-team/keras.git keras
+          git clone https://github.com/se2p/pynguin.git pynguin
       - name: Generate cdxgen boms
         env:
           CDXGEN_DEBUG_MODE: debug
@@ -41,17 +40,17 @@ jobs:
           mkdir artifacts-${{ matrix.os }}
           mkdir artifacts-${{ matrix.os }}/puppeteer
           mkdir artifacts-${{ matrix.os }}/tautulli
-          mkdir artifacts-${{ matrix.os }}/keras
+          mkdir artifacts-${{ matrix.os }}/pynguin
           cdxgen -p -t python --deep -o artifacts-${{ matrix.os }}/puppeteer/puppeteer-bom-${{ matrix.os }}.json puppeteer
-          cdxgen -p -t python --deep -o artifacts-${{ matrix.os }}/tautulli/tautulli-bom-${{ matrix.os }}.json tautulli
-          cdxgen -p -t python --deep -o artifacts-${{ matrix.os }}/keras/keras-bom-${{ matrix.os }}.json keras
+      - run: cdxgen -p -t python --deep -o artifacts-${{ matrix.os }}/tautulli/tautulli-bom-${{ matrix.os }}.json tautulli
+      - run: cdxgen -p -t python --deep -o artifacts-${{ matrix.os }}/pynguin/pynguin-bom-${{ matrix.os }}.json pynguin
       - name: Run evinse
         env:
           CDXGEN_DEBUG_MODE: debug
         run: |
           evinse -p -i artifacts-${{ matrix.os }}/puppeteer/puppeteer-bom-${{ matrix.os }}.json -o artifacts-${{ matrix.os }}/puppeteer/puppeteer-evinse-${{ matrix.os }}.json -l python --with-reachables puppeteer
-          evinse -p -i artifacts-${{ matrix.os }}/tautulli/tautulli-bom-${{ matrix.os }}.json -o artifacts-${{ matrix.os }}/tautulli/tautulli-evinse-${{ matrix.os }}.json -l python --with-reachables tautulli
-          evinse -p -i artifacts-${{ matrix.os }}/keras/keras-bom-${{ matrix.os }}.json -o artifacts-${{ matrix.os }}/keras/keras-evinse-${{ matrix.os }}.json -l python --with-reachables keras
+      - run: evinse -p -i artifacts-${{ matrix.os }}/tautulli/tautulli-bom-${{ matrix.os }}.json -o artifacts-${{ matrix.os }}/tautulli/tautulli-evinse-${{ matrix.os }}.json -l python --with-reachables tautulli
+      - run: evinse -p -i artifacts-${{ matrix.os }}/pynguin/pynguin-bom-${{ matrix.os }}.json -o artifacts-${{ matrix.os }}/pynguin/pynguin-evinse-${{ matrix.os }}.json -l python --with-reachables pynguin
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
         with:
