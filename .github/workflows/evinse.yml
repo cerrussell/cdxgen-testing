@@ -61,4 +61,4 @@ jobs:
         with:
           name: artifacts-${{ matrix.os }}
           path: |
-            artifacts-${{ matrix.os }}
+            artifacts-${{ matrix.os }}/**/*.json
