@@ -14,7 +14,7 @@ cdxgen -p -t python --deep -o artifacts-$MATRIX_OS/tautulli/tautulli-bom-$MATRIX
 cdxgen -p -t python --deep -o artifacts-$MATRIX_OS/pynguin/pynguin-bom-$MATRIX_OS.json pynguin
 cdxgen -p -t python --deep -o artifacts-$MATRIX_OS/scrapy/scrapy-bom-$MATRIX_OS.json scrapy
 
-evinse -p -i artifacts-$MATRIX_OS/spacy/spacy-bom-$MATRIX_OS.json -o artifacts-${{ matrix.os}}/spacy/spacy-evinse-$MATRIX_OS.json -l python --with-reachables spacy
-evinse -p -i artifacts-$MATRIX_OS/tautulli/tautulli-bom-$MATRIX_OS.json -o artifacts-${{ matrix.os}}/tautulli/tautulli-evinse-$MATRIX_OS.json -l python --with-reachables tautulli
-evinse -p -i artifacts-$MATRIX_OS/pynguin/pynguin-bom-$MATRIX_OS.json -o artifacts-${{ matrix.os}}/pynguin/pynguin-evinse-$MATRIX_OS.json -l python --with-reachables pynguin
-evinse -p -i artifacts-$MATRIX_OS/scrapy/scrapy-bom-$MATRIX_OS.json -o artifacts-${{ matrix.os}}/scrapy/scrapy-evinse-$MATRIX_OS.json -l python --with-reachables scrapy
+evinse -p -i artifacts-$MATRIX_OS/spacy/spacy-bom-$MATRIX_OS.json -o artifacts-$MATRIX_OS/spacy/spacy-evinse-$MATRIX_OS.json -l python --with-reachables spacy
+evinse -p -i artifacts-$MATRIX_OS/tautulli/tautulli-bom-$MATRIX_OS.json -o artifacts-$MATRIX_OS/tautulli/tautulli-evinse-$MATRIX_OS.json -l python --with-reachables tautulli
+evinse -p -i artifacts-$MATRIX_OS/pynguin/pynguin-bom-$MATRIX_OS.json -o artifacts-$MATRIX_OS/pynguin/pynguin-evinse-$MATRIX_OS.json -l python --with-reachables pynguin
+evinse -p -i artifacts-$MATRIX_OS/scrapy/scrapy-bom-$MATRIX_OS.json -o artifacts-$MATRIX_OS/scrapy/scrapy-evinse-$MATRIX_OS.json -l python --with-reachables scrapy
