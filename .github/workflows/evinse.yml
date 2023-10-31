@@ -45,7 +45,7 @@ jobs:
         shell: pwsh
         env:
           CDXGEN_DEBUG_MODE: debug
-          MATRIX_OS: matrix.os
+          MATRIX_OS: ${{ matrix.os }}
         run: .\${{ inputs.ptype }}.ps1
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
