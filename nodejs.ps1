@@ -14,7 +14,7 @@ cdxgen -p -t javascript --deep -o artifacts-$MATRIX_OS/videojs/videojs-bom-$MATR
 cdxgen -p -t javascript --deep -o artifacts-$MATRIX_OS/ava/ava-bom-$MATRIX_OS.json ava
 cdxgen -p -t javascript --deep -o artifacts-$MATRIX_OS/carbon/carbon-bom-$MATRIX_OS.json carbon
 
-evinse -p -i artifacts-$MATRIX_OS/sequelize/sequelize-bom-$MATRIX_OS.json -o artifacts-${{ matrix.os}}/sequelize/sequelize-evinse-$MATRIX_OS.json -l javascript --with-reachables sequelize
-evinse -p -i artifacts-$MATRIX_OS/videojs/videojs-bom-$MATRIX_OS.json -o artifacts-${{ matrix.os}}/videojs/videojs-evinse-$MATRIX_OS.json -l javascript --with-reachables videojs
-evinse -p -i artifacts-$MATRIX_OS/ava/ava-bom-$MATRIX_OS.json -o artifacts-${{ matrix.os}}/ava/ava-evinse-$MATRIX_OS.json -l javascript --with-reachables ava
-evinse -p -i artifacts-$MATRIX_OS/carbon/carbon-bom-$MATRIX_OS.json -o artifacts-${{ matrix.os}}/carbon/carbon-evinse-$MATRIX_OS.json -l javascript --with-reachables carbon
+evinse -p -i artifacts-$MATRIX_OS/sequelize/sequelize-bom-$MATRIX_OS.json -o artifacts-$MATRIX_OS/sequelize/sequelize-evinse-$MATRIX_OS.json -l javascript --with-reachables sequelize
+evinse -p -i artifacts-$MATRIX_OS/videojs/videojs-bom-$MATRIX_OS.json -o artifacts-$MATRIX_OS/videojs/videojs-evinse-$MATRIX_OS.json -l javascript --with-reachables videojs
+evinse -p -i artifacts-$MATRIX_OS/ava/ava-bom-$MATRIX_OS.json -o artifacts-$MATRIX_OS/ava/ava-evinse-$MATRIX_OS.json -l javascript --with-reachables ava
+evinse -p -i artifacts-$MATRIX_OS/carbon/carbon-bom-$MATRIX_OS.json -o artifacts-$MATRIX_OS/carbon/carbon-evinse-$MATRIX_OS.json -l javascript --with-reachables carbon
