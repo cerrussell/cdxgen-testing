@@ -8,6 +8,11 @@ on:
         required: false
         default: 'python'
         type: string
+      with-evinse:
+        description: 'run evinse as well as cdxgen'
+        required: false
+        default: false
+        type: boolean
 run-name: ${{ inputs.ptype }}-repos
         
 jobs: 
@@ -46,6 +51,7 @@ jobs:
         env:
           CDXGEN_DEBUG_MODE: debug
           MATRIX_OS: ${{ matrix.os }}
+          WITH_EVINSE: ${{ inputs.with-evinse }}
         run: .\${{ inputs.ptype }}.ps1
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
