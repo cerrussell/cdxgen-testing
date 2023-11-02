@@ -9,7 +9,7 @@ mkdir artifacts-$env:MATRIX_OS/tautulli
 mkdir artifacts-$env:MATRIX_OS/pynguin
 mkdir artifacts-$env:MATRIX_OS/scrapy
 
-if ($env:WITH_EVINSE) {
+if ($env:WITH_EVINSE -eq $true) {
   cdxgen -p -t python --deep -o artifacts-$env:MATRIX_OS/spacy/spacy-bom-$env:MATRIX_OS.json spacy
   cdxgen -p -t python --deep -o artifacts-$env:MATRIX_OS/tautulli/tautulli-bom-$env:MATRIX_OS.json tautulli
   cdxgen -p -t python --deep -o artifacts-$env:MATRIX_OS/pynguin/pynguin-bom-$env:MATRIX_OS.json pynguin

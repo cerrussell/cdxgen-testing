@@ -9,7 +9,7 @@ mkdir artifacts-$env:MATRIX_OS/videojs
 mkdir artifacts-$env:MATRIX_OS/ava
 mkdir artifacts-$env:MATRIX_OS/carbon
 
-if ($env:WITH_EVINSE) {
+if ($env:WITH_EVINSE -eq $true) {
     cdxgen -t javascript --deep -o artifacts-$env:MATRIX_OS/sequelize/sequelize-bom-$env:MATRIX_OS.json sequelize
     cdxgen -t javascript --deep -o artifacts-$env:MATRIX_OS/videojs/videojs-bom-$env:MATRIX_OS.json videojs
     cdxgen -t javascript --deep -o artifacts-$env:MATRIX_OS/ava/ava-bom-$env:MATRIX_OS.json ava
