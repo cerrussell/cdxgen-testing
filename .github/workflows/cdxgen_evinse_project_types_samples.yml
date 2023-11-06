@@ -40,10 +40,10 @@ jobs:
       - name: Get cdxgen and poetry
         run: |
           pipx install poetry
-          git clone https://github.com/CycloneDX/cdxgen.git
-          cd cdxgen
+          # git clone https://github.com/CycloneDX/cdxgen.git
+          # cd cdxgen
           # git checkout feature/evinse-python
-          npm install -g .
+          npm install -g @cyclonedx/cdxgen
       - uses: actions/checkout@v3
       - name: Get sample repos and run cdxgen/evinse
         shell: pwsh
