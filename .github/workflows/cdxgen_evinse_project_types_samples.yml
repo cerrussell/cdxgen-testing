@@ -43,8 +43,7 @@ jobs:
           git clone https://github.com/CycloneDX/cdxgen.git
           cd cdxgen
           # git checkout feature/evinse-python
-          npm pack
-          npm install -g cyclonedx-cdxgen-9.9.1.tgz
+          npm install -g .
       - uses: actions/checkout@v3
       - name: Get sample repos and run cdxgen/evinse
         shell: pwsh
