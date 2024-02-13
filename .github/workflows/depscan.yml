@@ -17,6 +17,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         repository: owasp-dep-scan/dep-scan
+        ref: release/6.x
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
