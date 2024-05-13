@@ -60,7 +60,7 @@ jobs:
           CDXGEN_DEBUG_MODE: debug
         run: |
           mkdir /home/runner/work/cdxgen-samples
-          python generate.py
+          python testing.py
           bash /home/runner/work/cdxgen-samples/sdkman_installs.sh
           bash /home/runner/work/cdxgen-samples/cdxgen_commands.sh
 
