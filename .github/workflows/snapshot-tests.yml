@@ -1,4 +1,4 @@
-name: Update slices
+name: Test BOM Snapshots
 
 on:
   workflow_dispatch:
@@ -41,9 +41,15 @@ jobs:
 
       -  name: Atom, cdxgen, sdkman, custom-json-diff installs
          run: |
-           npm install -g @cyclonedx/cdxgen
-           npm install -g @appthreat/atom
+           git clone https://github.com/cyclonedx/cdxgen.git /home/runner/work/cdxgen
+           cd /home/runner/work/cdxgen
+           npm install .
            python -m pip install --upgrade pip
+           python -m pip install pytest
+           git clone https://github.com/appthreat/custom-json-diff.git /home/runner/work/custom-json-diff
+           cd /home/runner/work/custom-json-diff
+           python -m pip install .
+           npm install -g @appthreat/atom
            curl -s "https://get.sdkman.io" | bash
            source "/home/runner/.sdkman/bin/sdkman-init.sh"
 
@@ -60,7 +66,7 @@ jobs:
           CDXGEN_DEBUG_MODE: debug
         run: |
           mkdir /home/runner/work/cdxgen-samples
-          python /test/diff/generate.py
+          python test/diff/generate.py
           bash /home/runner/work/cdxgen-samples/sdkman_installs.sh
           bash /home/runner/work/cdxgen-samples/cdxgen_commands.sh
 
@@ -76,6 +82,10 @@ jobs:
           name: cdxgen_boms
           path: |
             /home/runner/work/cdxgen-samples
+
+      - name: Run python tests
+        run: |
+          python pytest test/diff/diff_tests.py
 
       #TODO Switch generation of boms for checked out version of cdxgen
       #TODO: Run python tests against the two different cdxgen versions
