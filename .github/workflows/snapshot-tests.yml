@@ -43,7 +43,8 @@ jobs:
          run: |
            git clone https://github.com/cyclonedx/cdxgen.git /home/runner/work/cdxgen
            cd /home/runner/work/cdxgen
-           npm install -g .
+           cdxgen_version = $(npm pack | tail -1)
+           npm install -g $cdxgen_version
            python -m pip install --upgrade pip
            python -m pip install pytest
            git clone https://github.com/appthreat/custom-json-diff.git /home/runner/work/custom-json-diff
