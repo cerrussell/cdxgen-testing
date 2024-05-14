@@ -86,7 +86,7 @@ jobs:
 
       - name: Run python tests
         run: |
-          python pytest test/diff/diff_tests.py
+          python -m pytest test/diff/diff_tests.py
 
       #TODO Switch generation of boms for checked out version of cdxgen
       #TODO: Run python tests against the two different cdxgen versions
