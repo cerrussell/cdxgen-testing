@@ -59,7 +59,7 @@ jobs:
         id: sdkman-cache
         with:
           path: /home/runner/.sdkman/candidates
-          key: "${{ runner.os }}-sdkman-${{ hashFiles('test/repos.csv') }}"
+          key: "${{ runner.os }}-sdkman-${{ hashFiles('test/diff/repos.csv') }}"
 
       - name: Generate and run scripts
         env:

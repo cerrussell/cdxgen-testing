@@ -11,5 +11,5 @@ def sample_bom(json_file):
 
 
 def test_java_bom():
-    assert sample_bom('java-sec-code-bom.json') == sample_bom('/home/runner/work/cdxgen-samples/java-sec-code-bom.json')
+    assert sample_bom('test/diff/java-sec-code-bom.json') == sample_bom('/home/runner/work/cdxgen-samples/java-sec-code-bom.json')
 
