@@ -6,7 +6,7 @@ from pathlib import Path
 
 from custom_json_diff.custom_diff import compare_dicts, get_diffs
 
-with open('test/diff/repos.csv', 'r', encoding='utf-8') as f:
+with open('/home/runner/work/cdxgen-testing/cdxgen-testing/test/diff/repos.csv', 'r', encoding='utf-8') as f:
     reader = csv.DictReader(f)
     repo_data = list(reader)
 
