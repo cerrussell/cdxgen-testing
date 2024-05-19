@@ -244,10 +244,10 @@ def write_script_file(file_path, commands, debug_cmds):
     Returns:
         None
     """
-    # with open(file_path, 'w', encoding='utf-8') as f:
-    #     sdkman_path = Path.joinpath(Path('$SDKMAN_DIR'), 'bin', 'sdkman-init.sh')
-    #     f.write(f'#!/usr/bin/bash\nsource {sdkman_path}\n\n')
-    #     f.write(commands)
+    with open(file_path, 'w', encoding='utf-8') as f:
+        sdkman_path = Path.joinpath(Path('$SDKMAN_DIR'), 'bin', 'sdkman-init.sh')
+        f.write(f'#!/usr/bin/bash\nsource {sdkman_path}\n\n')
+        f.write(commands)
     if debug_cmds:
         print(commands)
 
