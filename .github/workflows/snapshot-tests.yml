@@ -47,6 +47,7 @@ jobs:
            npm install -g "$cdxgen_version"
            python -m pip install --upgrade pip
            python -m pip install pytest
+           git clone https://github.com/appthreat/cdxgen-samples.git /home/runner/work/samples
            git clone https://github.com/appthreat/custom-json-diff.git /home/runner/work/custom-json-diff
            cd /home/runner/work/custom-json-diff
            python -m pip install .
@@ -67,7 +68,7 @@ jobs:
           CDXGEN_DEBUG_MODE: debug
         run: |
           mkdir /home/runner/work/cdxgen-samples
-          python test/diff/generate.py
+          python test/diff/generate.py -o /home/runner/work/cdxgen-samples
           bash /home/runner/work/cdxgen-samples/sdkman_installs.sh
           bash /home/runner/work/cdxgen-samples/cdxgen_commands.sh
 
@@ -84,9 +85,6 @@ jobs:
           path: |
             /home/runner/work/cdxgen-samples
 
-      - name: Run python tests
+      - name: Test BOMs
         run: |
-          python -m pytest test/diff/diff_tests.py
-
-      #TODO Switch generation of boms for checked out version of cdxgen
-      #TODO: Run python tests against the two different cdxgen versions
+          python test/diff/diff_tests.py

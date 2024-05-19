@@ -1,5 +1,6 @@
 import csv
 import logging
+import os
 import pathlib
 import subprocess
 import argparse
@@ -84,8 +85,8 @@ def generate(args):
     """
     if args.output_dir == '.':
         args.output_dir = pathlib.Path.cwd()
-    if not args.debug_cmds:
-        check_dirs(args.skip_clone, args.clone_dir, args.output_dir)
+    # if not args.debug_cmds:
+    #     check_dirs(args.skip_clone, args.clone_dir, args.output_dir)
 
     repo_data = read_csv(args.repo_csv, args.projects, args.clone_dir)
     processed_repos = process_repo_data(repo_data, args.clone_dir)
@@ -93,8 +94,10 @@ def generate(args):
     if not args.skip_build:
         run_pre_builds(repo_data, args.output_dir, args.debug_cmds)
 
+    log_file = str(Path(args.output_dir, 'generate.log'))
+
     commands = ''.join(
-        exec_on_repo(args.skip_clone, args.output_dir, args.skip_build, repo)
+        exec_on_repo(args.skip_clone, args.output_dir, args.skip_build, repo, log_file)
         for repo in processed_repos
     )
     sh_path = Path.joinpath(args.output_dir, 'cdxgen_commands.sh')
@@ -119,7 +122,7 @@ def add_repo_dirs(clone_dir, repo_data):
     return new_data
 
 
-def exec_on_repo(clone, output_dir, skip_build, repo):
+def exec_on_repo(clone, output_dir, skip_build, repo, log_file):
     """
     Determines a sequence of commands on a repository.
 
@@ -134,7 +137,6 @@ def exec_on_repo(clone, output_dir, skip_build, repo):
     Returns:
         str: The sequence of commands to be executed.
     """
-    repo_dir = repo['repo_dir']
     commands = ''
 
     if clone:
@@ -154,6 +156,7 @@ def exec_on_repo(clone, output_dir, skip_build, repo):
             new_cmd = list(cmd.split(' '))
             commands += f"\n{subprocess.list2cmdline(new_cmd)}"
     commands += f'\n{run_cdxgen(repo, output_dir)}'
+    commands = f'\necho {repo["project"]} >> {log_file}\n' + 'time {' + commands+ '\n} >> ' + log_file
     commands += '\n\n'
     return commands
 
@@ -251,10 +254,10 @@ def write_script_file(file_path, commands, debug_cmds):
     Returns:
         None
     """
-    with open(file_path, 'w', encoding='utf-8') as f:
-        sdkman_path = Path.joinpath(Path('$SDKMAN_DIR'), 'bin', 'sdkman-init.sh')
-        f.write(f'#!/usr/bin/bash\nsource {sdkman_path}\n\n')
-        f.write(commands)
+    # with open(file_path, 'w', encoding='utf-8') as f:
+    #     sdkman_path = Path.joinpath(Path('$SDKMAN_DIR'), 'bin', 'sdkman-init.sh')
+    #     f.write(f'#!/usr/bin/bash\nsource {sdkman_path}\n\n')
+    #     f.write(commands)
     if debug_cmds:
         print(commands)
 
