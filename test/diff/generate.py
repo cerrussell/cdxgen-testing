@@ -1,6 +1,5 @@
 import csv
 import logging
-import os
 import pathlib
 import subprocess
 import argparse
@@ -13,7 +12,6 @@ def build_args():
     Builds the argument parser for the command line interface (CLI).
     """
     parser = argparse.ArgumentParser()
-    parser.set_defaults(slice_types=['usages', 'reachables'])
     parser.add_argument(
         '--repo-csv',
         type=Path,
@@ -63,13 +61,6 @@ def build_args():
         default=False,
         help='Skip building the samples and just run cdxgen. Should be used with --skip-clone'
     )
-    # parser.add_argument(
-    #     '--cleanup',
-    #     action='store_true',
-    #     dest='cleanup',
-    #     default=False,
-    #     help='Remove slices that are <= 1kb or > 100MB.'
-    # )
     return parser.parse_args()
 
 
@@ -85,8 +76,8 @@ def generate(args):
     """
     if args.output_dir == '.':
         args.output_dir = pathlib.Path.cwd()
-    # if not args.debug_cmds:
-    #     check_dirs(args.skip_clone, args.clone_dir, args.output_dir)
+    if not args.debug_cmds:
+        check_dirs(args.skip_clone, args.clone_dir, args.output_dir)
 
     repo_data = read_csv(args.repo_csv, args.projects, args.clone_dir)
     processed_repos = process_repo_data(repo_data, args.clone_dir)
@@ -94,10 +85,13 @@ def generate(args):
     if not args.skip_build:
         run_pre_builds(repo_data, args.output_dir, args.debug_cmds)
 
-    commands = ''.join(
-        exec_on_repo(args.skip_clone, args.output_dir, args.skip_build, repo, log_file)
-        for repo in processed_repos
-    )
+    commands = ''
+    for repo in processed_repos:
+        commands += f'\necho repo["project"] started at $(date) >> $CDXGEN_LOG'
+        commands += exec_on_repo(args.skip_clone, args.output_dir, args.skip_build, repo)
+        commands += '\necho repo["project"] finished at $(date) >> $CDXGEN_LOG\n\n'
+
+    commands = ''.join(commands)
     sh_path = Path.joinpath(args.output_dir, 'cdxgen_commands.sh')
     write_script_file(sh_path, commands, args.debug_cmds)
 
@@ -120,7 +114,7 @@ def add_repo_dirs(clone_dir, repo_data):
     return new_data
 
 
-def exec_on_repo(clone, output_dir, skip_build, repo, log_file):
+def exec_on_repo(clone, output_dir, skip_build, repo):
     """
     Determines a sequence of commands on a repository.
 
@@ -128,34 +122,32 @@ def exec_on_repo(clone, output_dir, skip_build, repo, log_file):
         clone (bool): Indicates whether to clone the repository.
         output_dir (pathlib.Path): The directory to output the slices.
         skip_build (bool): Indicates whether to skip the build phase.
-        slice_types (list): The types of slices to be generated.
         repo (dict): The repository information.
 
 
     Returns:
         str: The sequence of commands to be executed.
     """
-    commands = ''
+    commands = []
 
     if clone:
-        commands += f'\n{clone_repo(repo["link"], repo["repo_dir"])}'
-        commands += f'\n{subprocess.list2cmdline(["cd", repo["repo_dir"]])}'
-        commands += f'\n{checkout_commit(repo["commit"])}'
+        commands.append(f'{clone_repo(repo["link"], repo["repo_dir"])}')
+        commands.append(f'{subprocess.list2cmdline(["cd", repo["repo_dir"]])}')
+        commands.append(f'{checkout_commit(repo["commit"])}')
     if not skip_build and len(repo['pre_build_cmd']) > 0:
         cmds = repo['pre_build_cmd'].split(';')
         cmds = [cmd.lstrip().rstrip() for cmd in cmds]
         for cmd in cmds:
             new_cmd = list(cmd.split(' '))
-            commands += f"\n{subprocess.list2cmdline(new_cmd)}"
+            commands.append(f'{subprocess.list2cmdline(new_cmd)}')
     if not skip_build and len(repo['build_cmd']) > 0:
         cmds = repo['build_cmd'].split(';')
         cmds = [cmd.lstrip().rstrip() for cmd in cmds]
         for cmd in cmds:
             new_cmd = list(cmd.split(' '))
-            commands += f"\n{subprocess.list2cmdline(new_cmd)}"
-    commands += f'\n{run_cdxgen(repo, output_dir)}'
-    commands = f'\necho {repo["project"]} >> {log_file}\n' + 'time {' + commands+ '\n} >> ' + log_file
-    commands += '\n\n'
+            commands.append(f'{subprocess.list2cmdline(new_cmd)}')
+    commands.append(f'{run_cdxgen(repo, output_dir)}')
+    commands = '\n'.join(commands)
     return commands
 
 
@@ -252,10 +244,10 @@ def write_script_file(file_path, commands, debug_cmds):
     Returns:
         None
     """
-    with open(file_path, 'w', encoding='utf-8') as f:
-        sdkman_path = Path.joinpath(Path('$SDKMAN_DIR'), 'bin', 'sdkman-init.sh')
-        f.write(f'#!/usr/bin/bash\nsource {sdkman_path}\n\n')
-        f.write(commands)
+    # with open(file_path, 'w', encoding='utf-8') as f:
+    #     sdkman_path = Path.joinpath(Path('$SDKMAN_DIR'), 'bin', 'sdkman-init.sh')
+    #     f.write(f'#!/usr/bin/bash\nsource {sdkman_path}\n\n')
+    #     f.write(commands)
     if debug_cmds:
         print(commands)
 
@@ -283,7 +275,8 @@ def run_cdxgen(repo, output_dir):
     Generates cdxgen commands.
 
     Args:
-        repos (list[dict]): Repository data
+        repo (dict): Repository data
+        output_dir (pathlib.Path): Directory path for bom export
 
     Returns:
         str: The repository data with cdxgen commands

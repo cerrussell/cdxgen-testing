@@ -63,6 +63,7 @@ jobs:
         env:
           SDKMAN_DIR: /home/runner/.sdkman
           CDXGEN_DEBUG_MODE: debug
+          CDXGEN_LOG: /home/runner/work/cdxgen-samples/generate.log
         run: |
           mkdir /home/runner/work/cdxgen-samples
           python test/diff/generate.py
