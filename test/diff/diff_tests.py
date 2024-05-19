@@ -1,11 +1,12 @@
 import csv
 import json
 import os
+import sys
 from pathlib import Path
 
 from custom_json_diff.custom_diff import compare_dicts, get_diffs
 
-with open('/test/diff/repos.csv', 'r', encoding='utf-8') as f:
+with open('test/diff/repos.csv', 'r', encoding='utf-8') as f:
     reader = csv.DictReader(f)
     repo_data = list(reader)
 
@@ -30,5 +31,6 @@ for i in repo_data:
         failed_diffs[i["project"]] = diffs
 
 if failed_diffs:
-    with open('diffs.json', 'w') as f:
+    with open('/home/runner/work/cdxgen-samples/diffs.json', 'w') as f:
         json.dump(failed_diffs, f, indent=2)
+    sys.exit(1)
