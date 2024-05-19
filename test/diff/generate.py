@@ -87,9 +87,9 @@ def generate(args):
 
     commands = ''
     for repo in processed_repos:
-        commands += f'\necho repo["project"] started at $(date) >> $CDXGEN_LOG'
+        commands += f'\necho {repo["project"]} started at $(date) >> $CDXGEN_LOG\n'
         commands += exec_on_repo(args.skip_clone, args.output_dir, args.skip_build, repo)
-        commands += '\necho repo["project"] finished at $(date) >> $CDXGEN_LOG\n\n'
+        commands += f'\necho {repo["project"]} finished at $(date) >> $CDXGEN_LOG\n\n'
 
     commands = ''.join(commands)
     sh_path = Path.joinpath(args.output_dir, 'cdxgen_commands.sh')
