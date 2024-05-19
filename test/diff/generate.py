@@ -94,8 +94,6 @@ def generate(args):
     if not args.skip_build:
         run_pre_builds(repo_data, args.output_dir, args.debug_cmds)
 
-    log_file = str(Path(args.output_dir, 'generate.log'))
-
     commands = ''.join(
         exec_on_repo(args.skip_clone, args.output_dir, args.skip_build, repo, log_file)
         for repo in processed_repos
