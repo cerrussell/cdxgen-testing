@@ -315,9 +315,6 @@ def main():
     Runs the main function of the program.
     """
     args = build_args()
-    # if args.cleanup:
-    #     cleanup(args.output_dir)
-    # else:
     generate(args)
 
 

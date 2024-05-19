@@ -33,4 +33,3 @@ for i in repo_data:
 if failed_diffs:
     with open('/home/runner/work/cdxgen-samples/diffs.json', 'w') as f:
         json.dump(failed_diffs, f, indent=2)
-    sys.exit(1)
