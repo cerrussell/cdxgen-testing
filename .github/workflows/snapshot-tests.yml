@@ -2,12 +2,6 @@ name: Test BOM Snapshots
 
 on:
   workflow_dispatch:
-    inputs:
-      debug-cmds:
-        description: Don't execute commands, just print and upload shell files
-        required: false
-        type: boolean
-        default: false
 
 
 concurrency:
@@ -20,12 +14,6 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-
-      - name: Echo inputs
-        run: |
-          echo "debug-cmds: ${{ inputs.debug-cmds }}"
-          echo "github.actor: ${{ github.actor }}"
-          echo "FILTER: ${{ env.FILTER }}"
 
       - uses: actions/checkout@v4
 
