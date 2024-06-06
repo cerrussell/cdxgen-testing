@@ -82,8 +82,9 @@ jobs:
         if: ${{ env.status == 'FAILED' }}
         uses: actions/upload-artifact@v4
         with:
-            name: diff
-            path: /home/runner/work/cdxgen-samples/diffs.json
+            path: | 
+              /home/runner/work/cdxgen-samples/diffs.json
+              /home/runner/work/cdxgen-samples/*.html
 
       - name: Exit with error
         if: ${{ env.status == 'FAILED' }}
