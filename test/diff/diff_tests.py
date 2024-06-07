@@ -2,14 +2,16 @@ import csv
 import json
 import os
 
-from custom_json_diff.custom_diff import compare_dicts, perform_bom_diff, export_html_report
+from custom_json_diff.custom_diff import (
+    compare_dicts, perform_bom_diff, export_html_report, report_results
+)
 from custom_json_diff.custom_diff_classes import Options
 
 with open('/home/runner/work/cdxgen-testing/cdxgen-testing/test/diff/repos.csv', 'r', encoding='utf-8') as f:
     reader = csv.DictReader(f)
     repo_data = list(reader)
 
-Failed = False
+failed = False
 failed_diffs = {}
 
 
@@ -20,24 +22,24 @@ for i in repo_data:
     options = Options(
         allow_new_versions=True,
         allow_new_data=True,
+        comp_only=False,
         bom_diff=True,
-        include=["licenses", "properties", "evidence"],
+        include=["licenses", "evidence", "properties"],
         file_1=bom_1,
         file_2=bom_2,
+        output=f"/home/runner/work/cdxgen-samples/{i['project']}.json",
     )
     if not os.path.exists(bom_1):
         print(f'{bom_file} does not exist in cdxgen-samples repository.')
         failed_diffs[i["project"]] = f'{bom_file} does not exist in cdxgen-samples repository.'
         continue
     result, j1, j2 = compare_dicts(options)
-    if result == 0:
-        print(f'{i["project"]} BOM passed.')
-    else:
-        print(f'{i["project"]} BOM failed.')
-        Failed = True
-        diffs = perform_bom_diff(j1, j2)
-        failed_diffs[i["project"]] = diffs
-        export_html_report(f"/home/runner/work/cdxgen-samples/{i['project']}_report.html", diffs, j1, options)
+    if result != 0:
+        failed = True
+    result_summary = perform_bom_diff(j1, j2)
+    report_results(result, result_summary, j1, options)
+    failed_diffs[i["project"]] = result_summary
+    export_html_report(f"/home/runner/work/cdxgen-samples/{i['project']}_report.html", result_summary, j1, options)
 
 if failed_diffs:
     with open('/home/runner/work/cdxgen-samples/diffs.json', 'w') as f:
