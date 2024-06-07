@@ -6,7 +6,7 @@ import os
 from dataclasses import dataclass, field
 
 from custom_json_diff.custom_diff import (
-    compare_dicts, get_diff, perform_bom_diff, export_html_report, report_results
+    compare_dicts, perform_bom_diff, report_results
 )
 from custom_json_diff.custom_diff_classes import Options
 
@@ -31,7 +31,7 @@ for i in repo_data:
         exclude=exclude,
         file_1=bom_1,
         file_2=bom_2,
-        output=f'C:/Users/user/Downloads/cdxgen-samples/{i["project"]}-diff.json'
+        output=f'/home/runner/work/cdxgen-samples/{i["project"]}-diff.json'
     )
     if not os.path.exists(bom_1):
         print(f'{bom_file} does not exist in cdxgen-samples repository.')
@@ -45,5 +45,5 @@ for i in repo_data:
         report_results(result, result_summary, options, j1, j2)
 
 if failed_diffs:
-    with open('C:/Users/user/Downloads/cdxgen-samples/diffs.json', 'w') as f:
+    with open('/home/runner/work/cdxgen-samples/diffs.json', 'w') as f:
         json.dump(failed_diffs, f)
