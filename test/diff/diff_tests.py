@@ -37,7 +37,7 @@ for i in repo_data:
     if result != 0:
         failed = True
     result_summary = perform_bom_diff(j1, j2)
-    report_results(result, result_summary, j1, options)
+    # report_results(result, result_summary, j1, options)
     failed_diffs[i["project"]] = result_summary
     export_html_report(f"/home/runner/work/cdxgen-samples/{i['project']}_report.html", result_summary, j1, options)
 
