@@ -37,8 +37,6 @@ jobs:
            cd /home/runner/work/custom-json-diff
            git checkout 18a2ad9e7c980f6f9959fcceaffe537c19cdce06
            python -m pip install .
-#           python -m pip install custom-json-diff
-#           cjd -v
            npm install -g @appthreat/atom
            curl -s "https://get.sdkman.io" | bash
            source "/home/runner/.sdkman/bin/sdkman-init.sh"
