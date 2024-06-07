@@ -21,8 +21,8 @@ for i in repo_data:
     bom_file = f'{i["project"]}-bom.json'
     bom_1 = f"/home/runner/work/samples/{bom_file}"
     bom_2 = f"/home/runner/work/cdxgen-samples/{bom_file}"
-    exclude = ["components.[].scope"]
-    include = []
+    exclude = []
+    include = ["properties", "evidence"]
     options = Options(
         allow_new_versions=True,
         allow_new_data=True,
