@@ -1,13 +1,8 @@
-import argparse
 import csv
 import json
 import os
 
-from dataclasses import dataclass, field
-
-from custom_json_diff.custom_diff import (
-    compare_dicts, perform_bom_diff, report_results
-)
+from custom_json_diff.custom_diff import compare_dicts, perform_bom_diff, report_results
 from custom_json_diff.custom_diff_classes import Options
 
 
@@ -40,6 +35,7 @@ for i in repo_data:
     result, j1, j2 = compare_dicts(options)
 
     if result != 0:
+        print(f"{i['project']} failed.")
         result_summary = perform_bom_diff(j1, j2)
         failed_diffs[i["project"]] = result_summary
         report_results(result, result_summary, options, j1, j2)
